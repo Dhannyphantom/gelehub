@@ -7,7 +7,7 @@ const Payment = ({ onPaymentSuccess }) => {
 
     // Simulate a successful payment response
     setTimeout(() => {
-      onPaymentSuccess();
+      onPaymentSuccess && onPaymentSuccess();
     }, 2000);
   };
 
@@ -24,7 +24,7 @@ const Payment = ({ onPaymentSuccess }) => {
         Secure your spot now and let us make your gele experience unforgettable!
       </p>
       <button
-        className="px-6 py-2 bg-primary-500 text-white font-semibold rounded-lg disabled:opacity-50"
+        className="px-6 py-2 bg-primary-500 text-white font-semibold rounded-lg cursor-pointer disabled:opacity-50"
         onClick={handlePayment}
       >
         Proceed to Payment

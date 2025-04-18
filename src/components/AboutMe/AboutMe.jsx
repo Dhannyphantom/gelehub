@@ -79,7 +79,7 @@ const AboutMe = () => {
           </ul>
 
           {/* Call to Action */}
-          <Link href="/">
+          <Link href="/book">
             <motion.p
               className={styles.button}
               whileHover={{ scale: 1.05 }}

@@ -53,7 +53,7 @@ const ServiceSelection = ({ onNext }) => {
                 alt={artist.name}
                 className="mx-auto size-50 rounded-full"
               />
-              <p className="text-center mt-2 font-semibold">{artist.name}</p>
+              <p className="text-center p-6 font-semibold">{artist.name}</p>
             </div>
           ))}
           <div
@@ -96,9 +96,7 @@ const ServiceSelection = ({ onNext }) => {
                     alt={artist.name}
                     className="rounded-full size-30 mx-auto"
                   />
-                  <p className="text-center mt-2 font-semibold">
-                    {artist.name}
-                  </p>
+                  <p className="text-center p-4 font-semibold">{artist.name}</p>
                 </div>
               ))}
             </div>

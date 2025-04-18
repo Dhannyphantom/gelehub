@@ -84,7 +84,7 @@ function Header() {
         {/* Right Side Button */}
         {isAuth ? (
           <motion.h1
-            className="text-xl font-bold bg-gradient-to-r from-primary-500 via-light-500 to-primary-600 bg-[length:200%_100%] bg-clip-text text-transparent"
+            className="hidden sm:block text-xl font-bold bg-gradient-to-r from-primary-500 via-light-500 to-primary-600 bg-[length:200%_100%] bg-clip-text text-transparent"
             initial={{ backgroundPosition: "200% 0%" }}
             animate={{ backgroundPosition: "0% 0%" }}
             transition={{ duration: 2, repeat: Infinity, ease: "linear" }}

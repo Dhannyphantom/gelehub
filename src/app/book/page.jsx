@@ -23,6 +23,10 @@ const steps = [
 const BookingPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
 
+  const handlePaymentSuccess = () => {
+    alert("Payment successful");
+  };
+
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
@@ -32,7 +36,7 @@ const BookingPage = () => {
       case 3:
         return <UserInfo />;
       case 4:
-        return <Payment />;
+        return <Payment onPaymentSuccess={handlePaymentSuccess} />;
       default:
         return null;
     }
@@ -81,7 +85,7 @@ const BookingPage = () => {
             {currentStep > 1 && (
               <button
                 onClick={() => setCurrentStep((prev) => prev - 1)}
-                className="px-6 py-2 bg-gray-300 text-gray-800 rounded-lg"
+                className="px-6 py-2 bg-gray-300 text-gray-800 rounded-lg cursor-pointer"
               >
                 Back
               </button>
@@ -89,7 +93,7 @@ const BookingPage = () => {
             {currentStep < steps.length && (
               <button
                 onClick={() => setCurrentStep((prev) => prev + 1)}
-                className="px-6 py-2 bg-primary-500 text-white rounded-lg"
+                className="px-6 py-2 bg-primary-500 text-white rounded-lg cursor-pointer"
               >
                 Next
               </button>
