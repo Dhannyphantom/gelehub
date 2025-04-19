@@ -72,7 +72,7 @@ const BookingPage = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 bg-white shadow-md">
+      <main className="flex-1 px-4 py-6 sm:px-6 md:px-8 bg-white shadow-md w-full max-w-4xl mx-auto">
         <motion.div
           key={currentStep}
           initial={{ opacity: 0, y: 20 }}
@@ -81,11 +81,11 @@ const BookingPage = () => {
           transition={{ duration: 0.3 }}
         >
           {renderStepContent()}
-          <div className="mt-6 flex justify-between">
+          <div className="mt-6 flex flex-col sm:flex-row justify-between gap-4">
             {currentStep > 1 && (
               <button
                 onClick={() => setCurrentStep((prev) => prev - 1)}
-                className="px-6 py-2 bg-gray-300 text-gray-800 rounded-lg cursor-pointer"
+                className="w-full sm:w-auto px-6 py-2 bg-gray-300 text-gray-800 rounded-lg"
               >
                 Back
               </button>
@@ -93,7 +93,7 @@ const BookingPage = () => {
             {currentStep < steps.length && (
               <button
                 onClick={() => setCurrentStep((prev) => prev + 1)}
-                className="px-6 py-2 bg-primary-500 text-white rounded-lg cursor-pointer"
+                className="w-full sm:w-auto px-6 py-2 bg-primary-500 text-white rounded-lg"
               >
                 Next
               </button>

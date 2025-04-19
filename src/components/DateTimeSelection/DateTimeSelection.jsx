@@ -53,16 +53,20 @@ const DateTimeSelection = ({ onNext }) => {
         </div>
       </div>
 
-      <div className="w-lg">
-        <label className="block text-gray-700 font-semibold mb-2">
-          Event Address
+      <div className="w-full">
+        <label
+          htmlFor="email"
+          className="block text-gray-700 font-semibold mb-2"
+        >
+          Email Address
         </label>
         <input
-          type="text"
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+          type="email"
+          id="email"
           placeholder="Enter event address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
+          className="w-full max-w-md px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
         />
       </div>
     </div>
