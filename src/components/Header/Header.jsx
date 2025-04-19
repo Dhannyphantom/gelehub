@@ -4,11 +4,17 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Button from "../Button/Button";
+import { useSession } from "next-auth/react";
+import UserWelcomeCard from "../UserWelcomeCard";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+
+  const { data: session } = useSession();
+
+  // console.log({ session });
 
   const pathname = usePathname();
   const isAuth = pathname.startsWith("/auth");
@@ -91,6 +97,8 @@ function Header() {
           >
             Join us & sparkle in style!
           </motion.h1>
+        ) : session?.user ? (
+          <UserWelcomeCard />
         ) : (
           <div className="hidden md:block">
             <Button title={"Sign In"} href={"/auth"} />

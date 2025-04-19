@@ -5,36 +5,46 @@ import { motion } from "framer-motion";
 // import { signIn, signOut, useSession } from "next-auth/react";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({});
+  const [logData, setLogData] = useState({});
   const [isLargeScreen, setIsLargeScreen] = useState(false);
 
-  const handleLogin = async () => {
+  const router = useRouter();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!logData?.email || !logData?.password) {
+      return Alert("Please fill in all fields");
+    }
     const res = await signIn("credentials", {
       redirect: false,
-      email: "user@example.com",
-      password: "yourpassword",
+      email: logData?.email,
+      password: logData?.password,
     });
 
     if (res?.ok) {
       // redirect or toast
+      router.push("/");
     } else {
+      console.log(res.error);
       // handle error
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e, type = "reg") => {
+    if (type === "reg") {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    } else {
+      setLogData({ ...logData, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
-    // const name = e.target.name.value;
-    // const email = e.target.email.value;
-    // const password = e.target.password.value;
 
     try {
       const res = await fetch("/api/auth/register", {
@@ -83,14 +93,18 @@ const AuthPage = () => {
             <h2 className="text-2xl font-bold text-primary-500 mb-4">
               Sign In
             </h2>
-            <form className="space-y-4">
+            <form onSubmit={handleLogin} className="space-y-4">
               <input
                 type="email"
                 placeholder="Email"
+                name="email"
+                onChange={(e) => handleChange(e, "log")}
                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
               <input
                 type="password"
+                name="password"
+                onChange={(e) => handleChange(e, "log")}
                 placeholder="Password"
                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
