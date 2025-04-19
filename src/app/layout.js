@@ -3,6 +3,10 @@ import "./globals.css";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
+// import { PersistGate } from "redux-persist/integration/react";
+
 const poppins = Montserrat({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
@@ -19,6 +23,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={poppins.className}>
         <Header />
+
         <div className="pt-20">{children}</div>
         <Footer />
       </body>
