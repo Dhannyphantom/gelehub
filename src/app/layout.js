@@ -3,8 +3,9 @@ import "./globals.css";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 
-import { Provider } from "react-redux";
-import { store } from "@/store/store";
+// import { Provider } from s"react-redux";
+// import { store } from "@/store/store";
+import { Providers } from "@/components/Providers";
 // import { PersistGate } from "redux-persist/integration/react";
 
 const poppins = Montserrat({
@@ -21,12 +22,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
-        <Header />
-
-        <div className="pt-20">{children}</div>
-        <Footer />
-      </body>
+      <Providers>
+        <body className={poppins.className}>
+          <Header />
+          <div className="pt-20">{children}</div>
+          <Footer />
+        </body>
+      </Providers>
     </html>
   );
 }

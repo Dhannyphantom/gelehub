@@ -2,12 +2,59 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+// import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 
 const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
-
+  const [formData, setFormData] = useState({});
   const [isLargeScreen, setIsLargeScreen] = useState(false);
+
+  const handleLogin = async () => {
+    const res = await signIn("credentials", {
+      redirect: false,
+      email: "user@example.com",
+      password: "yourpassword",
+    });
+
+    if (res?.ok) {
+      // redirect or toast
+    } else {
+      // handle error
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+
+    // const name = e.target.name.value;
+    // const email = e.target.email.value;
+    // const password = e.target.password.value;
+
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("Account created! You can now sign in.");
+        setIsSignUp(true); // switch to sign-in form
+      } else {
+        alert(data.error || "Something went wrong");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong");
+    }
+  };
 
   useEffect(() => {
     // Function to check screen width
@@ -64,23 +111,36 @@ const AuthPage = () => {
             <h2 className="text-2xl font-bold text-primary-500 mb-4">
               Sign Up
             </h2>
-            <form className="space-y-4">
+            <form onSubmit={handleSignUp} className="space-y-4">
               <input
                 type="text"
+                name="name"
+                onChange={handleChange}
+                required
                 placeholder="Full Name"
                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
               <input
                 type="email"
+                required
+                name="email"
+                onChange={handleChange}
                 placeholder="Email"
                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
               <input
                 type="password"
+                name="password"
+                onChange={handleChange}
                 placeholder="Password"
                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
-              <select className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+              <select
+                value={formData.role}
+                name="role"
+                onChange={handleChange}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+              >
                 <option value="customer">Customer</option>
                 <option value="makeup-artist">Make-up Artist</option>
                 <option value="student">Student</option>
