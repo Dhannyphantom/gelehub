@@ -15,14 +15,12 @@ const UserWelcomeCard = () => {
   };
 
   return (
-    <div className="flex items-center">
-      <div className="flex-shrink-0">
-        <div className="w-12 h-12 rounded-full bg-primary-500 text-white flex items-center justify-center text-xl font-semibold shadow-md">
-          {getInitials(user?.name || user?.email || "User")}
-        </div>
+    <div className="flex items-center gap-3">
+      <div className="w-12 h-12 rounded-full bg-primary-500 text-white flex items-center justify-center text-xl font-semibold shadow-md">
+        {getInitials(user?.name || user?.email || "User")}
       </div>
-      <p className="font-semibold ml-2 text-gray-800">
-        Hi{user?.name ? `, ${user.name}` : ""}
+      <p className="font-semibold text-gray-800 text-base">
+        Hi{user?.name ? `, ${user.name?.split(" ")[0]}` : ""}
       </p>
     </div>
   );

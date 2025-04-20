@@ -9,10 +9,19 @@ import dayjs from "dayjs";
 import { Calendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
-const DateTimeSelection = ({ onNext }) => {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTime, setSelectedTime] = useState(null);
+const DateTimeSelection = ({ onChange, handleBack }) => {
+  const [selectedTime, setSelectedTime] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
   const [address, setAddress] = useState("");
+
+  const handleNext = () => {
+    onChange &&
+      onChange({
+        time: selectedTime,
+        date: selectedDate,
+        address,
+      });
+  };
 
   return (
     <div className="space-y-6">
@@ -47,7 +56,7 @@ const DateTimeSelection = ({ onNext }) => {
             use12Hours
             format="h:mm A"
             value={selectedTime}
-            onChange={(time) => setSelectedTime(time)}
+            onChange={setSelectedTime}
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
           />
         </div>
@@ -58,16 +67,31 @@ const DateTimeSelection = ({ onNext }) => {
           htmlFor="email"
           className="block text-gray-700 font-semibold mb-2"
         >
-          Email Address
+          Event Address
         </label>
         <input
-          type="email"
-          id="email"
+          type="text"
+          id="address"
           placeholder="Enter event address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           className="w-full max-w-md px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
         />
+      </div>
+      {/* Nav Content */}
+      <div className="mt-6 flex flex-col sm:flex-row justify-between gap-4">
+        <button
+          onClick={handleBack}
+          className="w-full sm:w-auto px-6 py-2 bg-gray-300 text-gray-800 rounded-lg cursor-pointer "
+        >
+          Back
+        </button>
+        <button
+          onClick={handleNext}
+          className="w-full sm:w-auto px-6 py-2 bg-primary-500 text-white rounded-lg cursor-pointer"
+        >
+          Next
+        </button>
       </div>
     </div>
   );

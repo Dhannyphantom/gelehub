@@ -22,21 +22,67 @@ const steps = [
 
 const BookingPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [formData, setFormData] = useState({});
 
   const handlePaymentSuccess = () => {
     alert("Payment successful");
   };
 
+  const onNextForm = (data) => {
+    switch (currentStep) {
+      case 1:
+        if (!data.eventType || !data.artist) {
+          return alert("Please select an event type and artist");
+        } else {
+          setFormData({ ...formData, ...data });
+          setCurrentStep(2);
+        }
+        break;
+      case 2:
+        if (!data.date || !data.time || !data.address) {
+          return alert("Please fill in all fields");
+        } else {
+          setFormData({ ...formData, ...data });
+          setCurrentStep(3);
+        }
+        break;
+      case 3:
+        if (!data.name || !data.phone || !data.email) {
+          return alert("Please fill in all fields");
+        } else {
+          setFormData({ ...formData, ...data });
+          setCurrentStep(4);
+        }
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const handleBack = () => {
+    setCurrentStep((prev) => Math.max(1, prev - 1));
+  };
+
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
-        return <ServiceSelection />;
+        return (
+          <ServiceSelection onChange={onNextForm} handleBack={handleBack} />
+        );
       case 2:
-        return <DateTimeSelection />;
+        return (
+          <DateTimeSelection handleBack={handleBack} onChange={onNextForm} />
+        );
       case 3:
-        return <UserInfo />;
+        return <UserInfo handleBack={handleBack} onChange={onNextForm} />;
       case 4:
-        return <Payment onPaymentSuccess={handlePaymentSuccess} />;
+        return (
+          <Payment
+            onPaymentSuccess={handlePaymentSuccess}
+            handleBack={handleBack}
+          />
+        );
       default:
         return null;
     }
@@ -53,12 +99,12 @@ const BookingPage = () => {
           {steps.map((step) => (
             <li
               key={step.id}
-              className={`flex items-center space-x-2 p-3 rounded-lg cursor-pointer transition ${
+              className={`flex items-center space-x-2 p-3 rounded-lg transition ${
                 currentStep === step.id
                   ? "bg-light text-primary-500"
                   : "bg-gray-50 text-gray-600"
               }`}
-              onClick={() => setCurrentStep(step.id)}
+              // onClick={() => setCurrentStep(step.id)}
             >
               {currentStep > step.id ? (
                 <CheckCircle className="w-5 h-5 text-green-500" />
@@ -81,24 +127,6 @@ const BookingPage = () => {
           transition={{ duration: 0.3 }}
         >
           {renderStepContent()}
-          <div className="mt-6 flex flex-col sm:flex-row justify-between gap-4">
-            {currentStep > 1 && (
-              <button
-                onClick={() => setCurrentStep((prev) => prev - 1)}
-                className="w-full sm:w-auto px-6 py-2 bg-gray-300 text-gray-800 rounded-lg"
-              >
-                Back
-              </button>
-            )}
-            {currentStep < steps.length && (
-              <button
-                onClick={() => setCurrentStep((prev) => prev + 1)}
-                className="w-full sm:w-auto px-6 py-2 bg-primary-500 text-white rounded-lg"
-              >
-                Next
-              </button>
-            )}
-          </div>
         </motion.div>
       </main>
     </div>

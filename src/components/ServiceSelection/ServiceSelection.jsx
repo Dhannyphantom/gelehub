@@ -1,16 +1,27 @@
 "use client";
 import { useState } from "react";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { makeupArtists } from "@/helpers/dataStore";
 
 const eventTypes = ["Wedding", "Birthday", "Photoshoot", "Other"];
 
-const ServiceSelection = ({ onNext }) => {
-  const [selectedEvent, setSelectedEvent] = useState("");
+const ServiceSelection = ({ onChange, handleBack }) => {
   const [selectedArtist, setSelectedArtist] = useState(null);
   const [showAllArtists, setShowAllArtists] = useState(false);
+  const [eventType, setEventType] = useState("");
+
+  const handleSelectArtist = (artistId) => {
+    setSelectedArtist(artistId);
+  };
+
+  const handleNext = () => {
+    onChange &&
+      onChange({
+        artist: selectedArtist,
+        eventType,
+      });
+  };
 
   return (
     <div className="space-y-6">
@@ -21,8 +32,9 @@ const ServiceSelection = ({ onNext }) => {
         </label>
         <select
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-          value={selectedEvent}
-          onChange={(e) => setSelectedEvent(e.target.value)}
+          value={eventType}
+          name="eventType"
+          onChange={(e) => setEventType(e.target.value)}
         >
           <option value="">Select an event</option>
           {eventTypes.map((event) => (
@@ -55,7 +67,7 @@ const ServiceSelection = ({ onNext }) => {
                     ? "border-primary-500"
                     : "border-gray-300"
                 }`}
-                onClick={() => setSelectedArtist(artist.id)}
+                onClick={() => handleSelectArtist(artist.id)}
               >
                 <div className="w-20 h-20 mx-auto mb-4 relative">
                   <Image
@@ -118,6 +130,21 @@ const ServiceSelection = ({ onNext }) => {
           </div>
         </div>
       )}
+      {/* Nav Content */}
+      <div className="mt-6 flex flex-col sm:flex-row justify-between gap-4">
+        <button
+          onClick={handleBack}
+          className="w-full sm:w-auto px-6 py-2 bg-gray-300 text-gray-800 rounded-lg cursor-pointer "
+        >
+          Back
+        </button>
+        <button
+          onClick={handleNext}
+          className="w-full sm:w-auto px-6 py-2 bg-primary-500 text-white rounded-lg cursor-pointer"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

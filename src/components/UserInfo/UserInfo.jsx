@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 
-const UserInfo = ({ onNext, onBack }) => {
+const UserInfo = ({ onChange, handleBack }) => {
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
     phone: "",
     notes: "",
@@ -11,6 +11,11 @@ const UserInfo = ({ onNext, onBack }) => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleNext = () => {
+    console.log({ formData });
+    onChange && onChange(formData);
   };
 
   return (
@@ -28,7 +33,7 @@ const UserInfo = ({ onNext, onBack }) => {
             type="text"
             id="full_name"
             placeholder="Enter full name"
-            name="fullName"
+            name="name"
             value={formData.fullName}
             onChange={handleChange}
             className="w-full max-w-md px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
@@ -85,6 +90,21 @@ const UserInfo = ({ onNext, onBack }) => {
             className="w-full max-w-md px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
           />
         </div>
+      </div>
+      {/* Nav Content */}
+      <div className="mt-6 flex flex-col sm:flex-row justify-between gap-4">
+        <button
+          onClick={handleBack}
+          className="w-full sm:w-auto px-6 py-2 bg-gray-300 text-gray-800 rounded-lg cursor-pointer "
+        >
+          Back
+        </button>
+        <button
+          onClick={handleNext}
+          className="w-full sm:w-auto px-6 py-2 bg-primary-500 text-white rounded-lg cursor-pointer"
+        >
+          Next
+        </button>
       </div>
     </div>
   );
