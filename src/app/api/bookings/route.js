@@ -1,5 +1,5 @@
 // app/api/bookings/route.js
-import connectDB from "@/lib/db";
+import { connectDB } from "@/lib/db";
 import Booking from "@/models/Booking";
 
 export async function POST(req) {
