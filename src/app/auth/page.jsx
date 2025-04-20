@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 // import { signIn, signOut, useSession } from "next-auth/react";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
