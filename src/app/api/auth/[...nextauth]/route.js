@@ -21,7 +21,12 @@ export const handler = NextAuth({
         );
         if (!isMatch) return null;
 
-        return { id: user._id, name: user.name, email: user.email };
+        return {
+          id: user._id?.toString(),
+          name: user.name,
+          email: user.email,
+          role: user?.role,
+        };
       },
     }),
   ],

@@ -12,6 +12,7 @@ import ServiceSelection from "@/components/ServiceSelection/ServiceSelection";
 import DateTimeSelection from "@/components/DateTimeSelection/DateTimeSelection";
 import UserInfo from "@/components/UserInfo/UserInfo";
 import Payment from "@/components/Payment/Payment";
+import { useSession } from "next-auth/react";
 
 const steps = [
   { id: 1, title: "Service Selection", icon: <Scissors className="w-5 h-5" /> },
@@ -23,9 +24,24 @@ const steps = [
 const BookingPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({});
+  const { data: session } = useSession();
 
-  const handlePaymentSuccess = () => {
-    alert("Payment successful");
+  const handlePaymentSuccess = async (ref) => {
+    try {
+      await fetch("/api/bookings", {
+        method: "POST",
+        body: JSON.stringify({
+          ...formData,
+          amount: 1000,
+          date: new Date(formData?.data),
+          ref: ref.reference,
+          status: "success",
+        }),
+      });
+      alert("Booking successful!");
+    } catch (err) {
+      console.error("Saving booking failed:", err);
+    }
   };
 
   const onNextForm = (data) => {
@@ -80,6 +96,7 @@ const BookingPage = () => {
         return (
           <Payment
             onPaymentSuccess={handlePaymentSuccess}
+            email={formData?.email}
             handleBack={handleBack}
           />
         );
