@@ -27,9 +27,15 @@ const Hero = () => {
           Elevate your style with our exquisite collection of jewelry and
           handcrafted gele.
         </p>
-        <a href="#shop" className={styles.cta}>
-          Book Now
-        </a>
+        <Link href="/book">
+          <motion.p
+            className={styles.button}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Book Now
+          </motion.p>
+        </Link>
       </div>
 
       {/* <div className={styles.heroImage}>

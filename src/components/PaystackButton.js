@@ -1,35 +1,44 @@
-// components/PaystackButton.js
+// components/FlutterwaveButton.js
 "use client";
 
-import { useState } from "react";
-import { usePaystackPayment } from "react-paystack";
+import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
 
-const PaystackButton = ({ booking, handleSuccess }) => {
-  const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
-
+const FlutterwaveButton = ({ booking, handleSuccess }) => {
   const config = {
-    reference: new Date().getTime().toString(),
-    email: booking.email,
-    amount: booking.amount * 100, // Paystack uses kobo
-    publicKey,
+    public_key: process.env.NEXT_PUBLIC_FLW_PUBLIC_KEY,
+    tx_ref: Date.now().toString(),
+    amount: booking.amount,
+    currency: "NGN",
+    payment_options: "card,ussd,banktransfer",
+    customer: {
+      email: booking.email,
+      name: booking.name,
+    },
+    customizations: {
+      title: "GeleHub Booking",
+      description: "Payment for gele styling session",
+      // logo: "/logo.png", // Replace with your logo path or URL
+    },
   };
 
-  const onSuccess = async (ref) => {
-    handleSuccess(ref);
+  const fwConfig = {
+    ...config,
+    text: "Pay Now",
+    callback: (response) => {
+      handleSuccess(response);
+      closePaymentModal(); // this will close the modal programmatically
+    },
+    onClose: () => {
+      alert("Payment cancelled");
+    },
   };
-
-  const onClose = () => alert("Payment cancelled");
-
-  const initializePayment = usePaystackPayment(config);
 
   return (
-    <button
-      onClick={() => initializePayment(onSuccess, onClose)}
+    <FlutterWaveButton
       className="px-4 py-2 bg-primary-500 text-white rounded-lg"
-    >
-      Pay Now
-    </button>
+      {...fwConfig}
+    />
   );
 };
 
-export default PaystackButton;
+export default FlutterwaveButton;
