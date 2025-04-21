@@ -4,7 +4,6 @@ import FeaturedProducts from "@/components/FeaturedProducts/FeaturedProducts";
 import Hero from "@/components/Hero/Hero";
 import Services from "@/components/Services/Services";
 import Testimonial from "@/components/Testimonial/Testimonial";
-import Image from "next/image";
 
 export default function Home() {
   return (

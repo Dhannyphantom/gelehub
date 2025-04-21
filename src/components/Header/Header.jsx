@@ -144,6 +144,12 @@ function Header() {
               }
             )}
         </ul>
+
+        {session?.user ? (
+          <Button title={"Sign Out"} />
+        ) : (
+          <Button title={"Sign In"} href={"/auth"} />
+        )}
       </div>
     </nav>
   );
